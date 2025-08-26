@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Proxy Site</title>
+<style>
+  body { font-family: Arial, sans-serif; margin: 50px; }
+  input, button { padding: 10px; margin: 5px 0; width: 100%; }
+</style>
+</head>
+<body>
+<h1>My Proxy Site</h1>
+<input id="url" type="text" placeholder="Enter URL (https://example.com)">
+<button onclick="go()">Go</button>
+<iframe id="proxyFrame" style="width:100%; height:500px; margin-top:20px;"></iframe>
+
+<script>
+function go() {
+    const url = document.getElementById('url').value;
+    // Using a public CORS proxy
+    const proxyUrl = 'https://api.allorigins.win/get?url=' + encodeURIComponent(url);
+    fetch(proxyUrl)
+        .then(response => response.json())
+        .then(data => {
+            const iframe = document.getElementById('proxyFrame');
+            iframe.srcdoc = data.contents;
+        })
+        .catch(err => alert('Error: ' + err));
+}
+</script>
+</body>
+</html>
